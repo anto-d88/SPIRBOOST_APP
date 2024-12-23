@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Montserrat:wght@400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="./navbar.css">
+    <link rel="stylesheet" href="./panier.css">
+</head>
+<body>
+    <div class="fade-in">
+        <div class="fullscreen-image">
+            <main>
+                <%- include('header') %>
+                <section class="boxPanier">
+                    <section class="boxinfopanier">
+                        <h1 class="titre">Votre panier</h1>
+                        <section class="boxArticleEtInfoClient">
+                            <section class="boxArticles">
+                                <% if (cart.length > 0) { %>
+                                    <section class="article1">
+                                        <% let totalPrice = 0; %>
+                                        <% cart.forEach(item => { %>
+                                            <div>
+                                                <%= item.quantity %> - Spiruline, 180 comprimés - <%= item.total_price %>€
+                                            </div> 
+                                            <form action="/delete?userId=<%= item.user_id %>" id="panier" method="post">
+                                                <button type="submit">Supprimer</button>
+                                            </form>
+                                            <% totalPrice += item.total_price; %>
+                                        <% }); %>
+
+                                        <!-- Ligne de réduction (si applicable) -->
+                                        <% if (user.promo != null ) { %>
+                                            <div class="reduction">
+                                                <p>Réduction : -<%= user.promo %>%</p>
+                                                
+                                            </div>
+                                        
+
+                                        <!-- Prix après réduction -->
+                                        
+                                        <div class="total-avec-reduction">
+                                            <p>Prix après réduction : <%=totalPrice - (totalPrice * ( user.promo ) / 100) %>€</p>
+                                        </div>
+                                        
+
+                                        <!-- Frais de port -->
+                                        <% if (user.free_shipping == false ) { %>
+                                        <div class="frais-de-port">
+                                            <% const shippingCost = 5; %> <!-- Exemple de frais de port fixes -->
+                                            <p>Frais de port : <%= shippingCost %>€</p>
+                                            
+                                        </div>
+
+                                        <!-- Total final -->
+                                        <div class="total-final">
+                                            <p>Total : <%= (totalPrice - (totalPrice * ( user.promo ) / 100)) + shippingCost %>€</p>
+                                            
+                                        </div>
+                                        <% } %>
+                                        <% } %>
+                                         <!-- Frais de port -->
+                                <% if (user.free_shipping == false && user.promo == null) { %>
+                                            <div class="frais-de-port">
+                                                <% const shippingCost = 5; %> <!-- Exemple de frais de port fixes -->
+                                                <p>Frais de port : <%= shippingCost %>€</p>
+                                                
+                                            </div>
+    
+                                            <!-- Total final -->
+                                            <div class="total-final">
+                                                <p>Total : <%= totalPrice + shippingCost %>€</p>
+                                                
+                                            </div>
+                                 <% } %>
+                                        <form action="/checkout" id="paiement" method="post">
+                                            <button type="submit">Valider la commande</button>
+                                        </form>
+                                       <!-- <a href="/chargementPaiement" id="success" class="btn">Success</a>-->
+                                    </section>
+                                <% } else { %>
+                                    <p>Votre panier est vide.</p>
+                                <% } %>
+                            </section>
+                            <section class="boxInfoClient">
+                                <p class="textmassage">Vérifiez bien vos informations de livraison ci-dessous avant de valider la commande</p>
+                                <ul>
+                                    <li><%= user.first_name %></li>
+                                    <li><%= user.last_name %></li>
+                                    <li><%= user.address %></li>
+                                    <li><%= user.phone_number %></li>
+                                    <li><%= user.email %></li>
+                                </ul>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+    <footer>
+    </footer>
+    <script src="/scriptsession3.js"></script>
+</body>
+</html>

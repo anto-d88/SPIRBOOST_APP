@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: "Poppins", sans-serif;
+    background-color: black;
+}
+/* Animation fade-in */
+.fade-in {
+  opacity: 0.2; /* Commence transparent */
+  animation: fadeInEffect 3s ease forwards; /* Animation de 1.5 secondes */
+}
+
+/* Animation keyframes */
+@keyframes fadeInEffect {
+  0% {
+    opacity: 0.2; /* Commence complètement transparent */
+    background-color: rgb(0, 0, 0); /* Fond noir au début */
+  }
+  100% {
+    opacity: 1; /* Terminé complètement opaque */
+    background-color: transparent; /* Transition vers le fond de la page */
+  }
+}
+.logoAccueil{
+  width: 50%;
+}
+/* La classe pour l'image de fond */
+.fullscreen-image {
+    background-image: url('img/R\ \(2\).jpg'); /* Chemin de l'image */
+    background-size: cover; /* Couvre toute la zone */
+    background-position: center; /* Centre l'image */
+    background-repeat: no-repeat; /* Ne répète pas l'image */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    width: 100vw; /* Prend toute la largeur de la fenêtre */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white; /* Optionnel : couleur de texte blanche */
+    
+  }
+  .content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 2vw; /* Agrandit le titre */
+    height: 100%;
+    width: 100%;
+    background-color: rgba(198, 163, 106, 0.4);
+  }

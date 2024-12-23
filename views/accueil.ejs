@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Montserrat:wght@400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+   
+    <link rel="stylesheet" href="./accueil.css">
+
+    <title>Bienvenue</title>
+  
+</head>
+<body>
+    <% if (user) { %> 
+        <p id="hidenid"><%= user.id %></p>
+        <% } %>
+
+    <div class="fade-in">
+<!-- Conteneur de l'image pleine écran -->
+<div class="fullscreen-image">
+  <div class="content">
+    <!-- Section du titre -->
+    <div class="left-side">
+        <div class="contener-texteAccueil">
+        <img src="./img/logo_Spirboost.png" alt="Image 1" class="logoAccueil">
+        <h1 class="titreAccueil">Bienvenue</h1>
+        </div>
+    </div>
+    
+    <!-- Section des boutons -->
+    <div class="right-side">
+      <div class="button-container">
+          <div class="button-group">
+              <a href="/spirulineBio" id="spirulineBio" class="btn"><button>Notre Spiruline Bio</button></a>
+              <a href="/histoiredelaspiruline" id="histoiredelaspiruline" class="btn"><button>Découvrez la Spiruline</button></a>
+              <button>Nos autres produits</button>
+              <button>Nous connaître</button>
+              <button>Nous rejoindre</button>
+              <a href="/contact" id="contact" class="btn"><button>Nous contacter</button></a>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+     <script src="/scriptsession.js"></script>
+</body>
+</html>
