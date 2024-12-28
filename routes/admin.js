@@ -35,9 +35,20 @@ router.get('/adminDashboard', async (req, res) => {
       .from('delivered_orders')
       .select('*');
       
+   // Récupération des messages des utilisateurs
+   const { data: messages, error: errorMessages } = await supabase
+   .from('messages')
+   .select('*')
+   .eq('receiver_id', 1) // ID de l'administrateur
+   .order('created_at', { ascending: false });
+     // Récupération des réponses associées aux messages
+     const { data: responses, error: errorResponses } = await supabase
+     .from('responses')
+     .select('*')
+     .in('message_id', messages.map(msg => msg.id));  // Récupère les réponses pour les messages récupérés
 
     // Gestion des erreurs potentielles
-    if (errorPending || errorDelivering || errorDelivered) {
+    if (errorPending || errorDelivering || errorDelivered || errorMessages || errorResponses) {
       return res.status(500).send('Erreur lors de la récupération des commandes.');
     }
 
@@ -46,6 +57,8 @@ router.get('/adminDashboard', async (req, res) => {
       pendingOrders,
       deliveringOrders,
       deliveredOrders,
+      messages,  // Ajoutez les messages dans le rendu
+      responses,  // Ajouter les réponses dans le rendu
       
     });
   } catch (err) {
@@ -149,6 +162,39 @@ console.log(order)
     res.status(500).json({ message: 'Erreur interne du serveur.' });
   }
 });
+router.post('/admin/respond', async (req, res) => {
+  const { sender_id, message_id, response } = req.body; // Récupération des données du formulaire de réponse
+  
+  try {
+    // Validation des données
+    if (!sender_id || !message_id || !response) {
+      return res.status(400).json({ message: 'Données manquantes.' });
+    }
+
+    // Insertion de la réponse dans la table responses
+    const { error } = await supabase
+      .from('responses')
+      .insert([
+        {
+          message_id: message_id,  // Référence au message d'origine
+          response: response,      // Le message de réponse
+          admin_id: 1,             // ID de l'administrateur (vous pouvez le rendre dynamique)
+        },
+      ]);
+
+    if (error) {
+      console.error('Erreur lors de l\'enregistrement de la réponse :', error);
+      return res.status(500).json({ message: 'Erreur interne lors de l\'envoi de la réponse.' });
+    }
+
+    // Rediriger vers la page d'administration après la réponse
+    res.redirect('/adminDashboard');
+  } catch (err) {
+    console.error('Erreur lors de la réponse:', err);
+    res.status(500).json({ message: 'Erreur serveur.' });
+  }
+});
+
 
 
 // Exportation du routeur pour l'utiliser dans l'application principale

@@ -8,11 +8,13 @@ function showSection(sectionId) {
   }
   
   // Gestion des boutons de navigation
+  const btnMessage = document.getElementById('btn-message');
   const btnPending = document.getElementById('btn-pending');
   const btnDelivering = document.getElementById('btn-delivering');
   const btnDelivered = document.getElementById('btn-delivered');
   const btnSuivis = document.getElementById('btn-suivis');
   
+  btnMessage.addEventListener('click', () => showSection('messages'));
   btnPending.addEventListener('click', () => showSection('pending'));
   btnDelivering.addEventListener('click', () => showSection('delivering'));
   btnDelivered.addEventListener('click', () => showSection('delivered'));

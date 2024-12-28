@@ -46,7 +46,7 @@
                                         <!-- Prix après réduction -->
                                         
                                         <div class="total-avec-reduction">
-                                            <p>Prix après réduction : <%=totalPrice - (totalPrice * ( user.promo ) / 100) %>€</p>
+                                            <p>Prix après réduction : <%=(totalPrice - (totalPrice * ( user.promo ) / 100)).toFixed(2) %>€</p>
                                         </div>
                                         
 
@@ -60,7 +60,7 @@
 
                                         <!-- Total final -->
                                         <div class="total-final">
-                                            <p>Total : <%= (totalPrice - (totalPrice * ( user.promo ) / 100)) + shippingCost %>€</p>
+                                            <p>Total : <%= ((totalPrice - (totalPrice * ( user.promo ) / 100)) + shippingCost).toFixed(2) %>€</p>
                                             
                                         </div>
                                         <% } %>

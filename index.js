@@ -12,7 +12,7 @@ const csrfProtection = csrf({ cookie: true }); // Utilisation des cookies pour s
 dotenv.config(); // Charge les variables d'environnement depuis .env
 
 // Initialiser l'application Express
-const app = express();   
+const app = express();    
 const port = 3000;
 
 

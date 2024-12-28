@@ -10,66 +10,96 @@ router.use(express.json());
 
 // URL et clé d'authentification pour se connecter à Supabase
 const dotenv = require('dotenv');
-// Middleware pour gérer les données envoyées par les formulaires
-router.use(express.urlencoded({ extended: true }));
-router.use(express.json());
-
-// URL et clé d'authentification pour se connecter à Supabase
 dotenv.config(); // Charge les variables d'environnement depuis .env
-// Création du client Supabase pour interagir avec la base de données
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 // Middleware pour vérifier l'authentification de l'utilisateur
-// Si l'utilisateur n'est pas authentifié (pas de `userId`), il sera redirigé vers la page de connexion
-const authenticate = (req, res, next) => {
-  if (!req.query.userId) {
-    return res.redirect('/login');
+const authenticate = async (req, res, next) => {
+  const userId = req.query.userId; // On vérifie si un userId est présent dans les paramètres de requête
+  if (!userId) {
+    return res.redirect('/login'); // Redirige vers la page de connexion si aucun userId
   }
-  next(); // Passe au middleware suivant ou à la route
+
+  try {
+    // Vérifie si l'utilisateur existe dans la base de données
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    if (error || !user) {
+      return res.redirect('/login'); // Redirige si l'utilisateur n'existe pas
+    }
+
+    // Ajoute les informations de l'utilisateur à la requête pour les utiliser dans les routes
+    
+    req.user = user;
+    next(); // Passe à la route suivante
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Une erreur s'est produite lors de la vérification de l'utilisateur." });
+  }
 };
 
-// Route pour la page de contact
-router.get('/contact', async (req, res) => {
-  // Vérifie si un `userId` est passé en paramètre dans la requête
-  if (!req.query.userId) {
-    const user = 0; // Si l'utilisateur n'est pas connecté, on initialise `user` à 0
-    return res.render('contact', { user: user }); // Affiche la page de contact sans informations sur l'utilisateur
-  } else {
-    // Si un `userId` est passé, on récupère ses données depuis Supabase
-    const userId = req.query.userId; // Récupère l'ID de l'utilisateur à partir des paramètres de la requête
-    const id = Number(userId); // Convertit l'ID en nombre (assurez-vous que `userId` est bien un nombre valide)
-    
 
-    try {
-      // Récupère les informations de l'utilisateur à partir de la table 'users' de Supabase
-      let { data: users, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', id); // Filtre par l'ID de l'utilisateur
 
-      if (error) {
-        return res.status(500).json({ error: error.message }); // Si une erreur se produit lors de la récupération, elle est renvoyée
-      }
-      console.log(users[0]); // Affiche les informations de l'utilisateur dans la console pour le débogage
+router.get('/contact', authenticate, async (req, res) => {
+  try {
+    const user = req.user; // Informations utilisateur récupérées par le middleware
+    const adminId = 1; // ID de l'administrateur
 
-      // Récupère les informations d'un produit spécifique à partir de la table 'products'
-      const { data: products, error2 } = await supabase
-        .from('products')
-        .select('*')
-        .eq('id', 1); // Sélectionne le produit avec l'ID = 1 (exemple d'utilisation)
+    // Récupère les messages entre l'utilisateur connecté et l'administrateur
+    const { data: messages, error: messageError } = await supabase
+      .from('messages')
+      .select('*')
+      .or(`sender_id.eq.${user.id},receiver_id.eq.${adminId}`)
+      .order('created_at', { ascending: true });
 
-      if (error2) throw error2; // Si une erreur se produit lors de la récupération du produit, elle est lancée
-
-      console.log(products); // Affiche les informations du produit dans la console
-
-      // Rendu de la vue 'contact' avec les données de l'utilisateur et du produit
-      res.render('contact', { user: users[0], products: products }); // Transmet l'utilisateur et le produit à la vue 'contact'
-    } catch (error) {
-      // Gère les erreurs générales
-      console.error(error); // Affiche l'erreur dans la console
-      res.status(500).json({ error: "Une erreur s'est produite lors du chargement des données." }); // Envoie une réponse d'erreur si quelque chose échoue
+      
+    if (messageError) { 
+      throw new Error(messageError.message);
     }
+// Récupère les réponses de l'administrateur
+const { data: responses, error: responseError } = await supabase
+.from('responses')
+.select('*')
+.in('message_id', messages.map(msg => msg.id)); // Récupère les réponses pour les messages
+
+if (responseError) {
+throw new Error(responseError.message);
+}
+
+// Passe les données nécessaires à la vue
+res.render('contact', { user, messages, responses, admin_id: adminId }); // Ajout des réponses ici
+  } catch (error) {
+    console.error('Erreur lors du chargement des messages :', error);
+    res.status(500).json({ error: "Une erreur s'est produite lors du chargement des données." });
   }
 });
 
-module.exports = router; // Exportation du routeur pour l'utiliser dans d'autres parties de l'application
+
+// Route pour envoyer un message
+router.post('/contact/send', async (req, res) => {
+  const {sender_id, message } = req.body;
+   // L'utilisateur connecté est l'expéditeur
+  const receiver_id = 1; // ID de l'administrateur ou autre destinataire
+console.log(sender_id)
+  try {
+    const { data, error } = await supabase
+      .from('messages')
+      .insert([{ sender_id, receiver_id, message }]);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // Redirige vers la page de contact après l'envoi
+    res.redirect(`/contact?userId=${sender_id}`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Une erreur s'est produite lors de l'envoi du message." });
+  }
+});
+
+module.exports = router; 

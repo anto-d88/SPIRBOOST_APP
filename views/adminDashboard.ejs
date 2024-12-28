@@ -11,12 +11,54 @@
     <h1>Tableau de Bord Administrateur</h1>
   </header>
   <nav>
+    <button id="btn-message">Messages</button>
     <button id="btn-pending">Commandes</button>
     <button id="btn-delivering">Commandes en cours de livraison</button>
     <button id="btn-delivered">Commandes Livrées</button>
     <button id="btn-suivis">Suivis Utilisateurs</button>
   </nav>
   <main>
+    <section id="messages">
+      <h2>Messages des utilisateurs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID Message</th>
+            <th>Utilisateur</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Répondre</th>
+            <th>Réponses</th> <!-- Ajouter une colonne pour afficher les réponses -->
+          </tr>
+        </thead>
+        <tbody>
+          <% messages.forEach(msg => { %>
+            <tr>
+              <td><%= msg.id %></td>
+              <td><%= msg.sender_id %></td>
+              <td><%= msg.message %></td>
+              <td><%= new Date(msg.created_at).toLocaleString() %></td>
+              <td>
+                <form action="/admin/respond" method="POST">
+                  <input type="hidden" name="sender_id" value="<%= msg.sender_id %>">
+                  <input type="hidden" name="message_id" value="<%= msg.id %>">
+                  <textarea name="response" placeholder="Répondre ici" required></textarea>
+                  <button type="submit">Envoyer la réponse</button>
+                </form>
+              </td>
+              <td>
+                <ul>
+                  <% responses.filter(r => r.message_id === msg.id).forEach(response => { %>
+                    <li><strong>Admin:</strong> <%= response.response %> <small>(<%= new Date(response.created_at).toLocaleString() %>)</small></li>
+                  <% }) %>
+                </ul>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </section>
+    
     <section id="pending" class="active">
       <h2>Commandes</h2>
       <table>
