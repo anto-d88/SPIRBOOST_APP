@@ -110,7 +110,9 @@ main {
 #closePopup:hover {
   background-color: #999;
 }
-
+.prixBarrer{
+  text-decoration: line-through;
+}
 
 /* Responsive : Empiler les sections en colonne sur mobile */
 @media (max-width: 768px) {

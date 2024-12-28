@@ -39,7 +39,12 @@
           <h2 class="titreProduit2">Ingrédients</h2>
           <p>100% Spiruline biologique pure, sans additifs ni conservateurs.</p>
           <h2 class="titreProduit2">Prix</h2>
-          <h2><strong><%= products[0].price %>€</strong></h2>
+          <% if (user.promo != null) { %> 
+          <h2 class="prixBarrer"><strong><%= products[0].price %>€</strong></h2>
+          <h1><strong><%= (products[0].price - (products[0].price * ( user.promo ) / 100)).toFixed(2) %>€</strong></h1>
+          <% } else { %>
+            <h2 ><strong><%= products[0].price %>€</strong></h2>
+            <% } %>
           <p class="status-message" id="status-<%= products[0].id %>"></p>
           <section class="boxquantity">
           <form class="add-to-cart-form" data-product-id="<%= products[0].id %>" data-product-price="<%= products[0].price %>" class="quantity-selector" >
