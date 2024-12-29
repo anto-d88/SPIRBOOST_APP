@@ -16,6 +16,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 // Middleware pour vérifier l'authentification de l'utilisateur
 const authenticate = async (req, res, next) => {
   const userId = req.query.userId; // On vérifie si un userId est présent dans les paramètres de requête
+  console.log(userId)
   if (!userId) {
     return res.redirect('/login'); // Redirige vers la page de connexion si aucun userId
   }
