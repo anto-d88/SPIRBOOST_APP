@@ -22,6 +22,7 @@ const authRoutes = require('./routes/auth');
 const accueilRoutes = require('./routes/accuei');
 const contactRoutes = require('./routes/contact');
 const spirulineBioRoutes = require('./routes/spirulineBio');
+const autreProduit = require('./routes/autreProduit');
 const commandeRoutes = require('./routes/commande'); 
 const panierRoutes = require('./routes/panier'); 
 const espaceClientRoutes = require('./routes/espaceClient'); 
@@ -92,6 +93,7 @@ app.use(commandeRoutes);
 app.use(panierRoutes);
 app.use(espaceClientRoutes);
 app.use(spirulineBioRoutes);
+app.use(autreProduit);
 app.use(successRoutes);
 app.use(chargementPaiementRoutes);
 

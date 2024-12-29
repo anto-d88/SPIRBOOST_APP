@@ -42,7 +42,7 @@ const slides = document.querySelector('.slider');
           autoSlideInterval = setInterval(() => {
               let nextIndex = (currentIndex + 1) % totalSlides;
               updateSlide(nextIndex);
-          }, 5000); // Change slide every 3 seconds
+          }, 10000); // Change slide every 3 seconds
       }
 
       // Stop auto slide when user clicks a dot

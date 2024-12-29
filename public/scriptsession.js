@@ -15,6 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const userLinkhistoirespiruline = document.getElementById('histoiredelaspiruline');
     userLinkhistoirespiruline.href = `/histoiredelaspiruline?userId=${encodeURIComponent(userId)}`;
 
+    // Mettre à jour le lien vers l'espace client avec l'identifiant utilisateur
+    const userLinkautreProduit = document.getElementById('autreProduit');
+    userLinkautreProduit.href = `/autreProduit?userId=${encodeURIComponent(userId)}`;
+
+    // Mettre à jour le lien vers l'espace client avec l'identifiant utilisateur
+    const userLinkespaceClient = document.getElementById('espaceClient');
+    userLinkespaceClient.href = `/espaceClient?userId=${encodeURIComponent(userId)}`;
+
+    // Mettre à jour le lien vers le formulaire d'enregistrement avec l'identifiant utilisateur
+    const userLinkregister = document.getElementById('register');
+    userLinkregister.href = `/register?userId=${encodeURIComponent(userId)}`;
+
     // Mettre à jour le lien vers la page de contact avec l'identifiant utilisateur
     const userLinkcontact = document.getElementById('contact');
     userLinkcontact.href = `/contact?userId=${encodeURIComponent(userId)}`;

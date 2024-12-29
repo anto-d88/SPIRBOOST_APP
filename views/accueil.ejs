@@ -37,9 +37,13 @@
           <div class="button-group">
               <a href="/spirulineBio" id="spirulineBio" class="btn"><button>Notre Spiruline Bio</button></a>
               <a href="/histoiredelaspiruline" id="histoiredelaspiruline" class="btn"><button>Découvrez la Spiruline</button></a>
-              <button>Nos autres produits</button>
-              <button>Nous connaître</button>
-              <button>Nous rejoindre</button>
+              <a href="/autreProduit" id="autreProduit" class="btn"><button>Nos autres produits</button></a>
+              <a href="/espaceClient" id="espaceClient" class="btn"><button>Espace Client</button></a>
+              <% if (user) { %> 
+                <a href="/logout" class="btn"><button>Déconnexion</button></a>
+                <% } else { %>
+                    <a href="/register" id="register" class="btn"><button>Nous rejoindre</button></a>
+                    <% } %>
               <a href="/contact" id="contact" class="btn"><button>Nous contacter</button></a>
           </div>
       </div>

@@ -53,7 +53,7 @@ router.get('/contact', authenticate, async (req, res) => {
     const { data: messages, error: messageError } = await supabase
       .from('messages')
       .select('*')
-      .or(`sender_id.eq.${user.id},receiver_id.eq.${adminId}`)
+      .or(`sender_id.eq.${user.id}`)
       .order('created_at', { ascending: true });
 
       
