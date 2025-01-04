@@ -30,7 +30,7 @@ if (element && element.value !== "") {
     const form = document.getElementById('contactForm');
     form.addEventListener('submit', () => {
         setTimeout(() => {
-            window.location.href = `/accueil?userId=${encodeURIComponent(userId)}`; // Redirige vers la page d'accueil
+            window.location.href = `/contact?userId=${encodeURIComponent(userId)}`; // Redirige vers la page d'accueil
         }, 500); // Délai pour permettre au formulaire de se soumettre
     });
   });
