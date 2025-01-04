@@ -16,18 +16,40 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 
 // Middleware pour vérifier l'authentification de l'utilisateur
 // Si l'utilisateur n'est pas authentifié (pas de `userId`), il sera redirigé vers la page de connexion
-const authenticate = (req, res, next) => {
-  if (!req.query.userId) {
-    return res.redirect('/login');
+const authenticate =async (req, res, next) => {
+  const userId = req.query.userId; // On vérifie si un userId est présent dans les paramètres de requête
+  console.log(userId)
+  if (!userId) {
+    return res.redirect('/login'); // Redirige vers la page de connexion si aucun userId
   }
-  next(); // Passe au middleware suivant ou à la route
+
+  try {
+    // Vérifie si l'utilisateur existe dans la base de données
+    const { data: user, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', userId)
+      .single();
+
+    if (error || !user) {
+      return res.redirect('/login'); // Redirige si l'utilisateur n'existe pas
+    }
+
+    // Ajoute les informations de l'utilisateur à la requête pour les utiliser dans les routes
+    
+    req.user = user;
+    next(); // Passe à la route suivante
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Une erreur s'est produite lors de la vérification de l'utilisateur." });
+  }
 };
 
 // Route pour la page 'espaceClient', qui est protégée par le middleware 'authenticate'
 router.get('/espaceClient', authenticate, async (req, res) => {
   // Récupère l'ID de l'utilisateur depuis la requête
-  const userId = req.query.userId;
-  const id = Number(userId); // Conversion de l'ID en nombre pour la requête SQL
+  const userId = req.user;
+  const id = userId.id; // Conversion de l'ID en nombre pour la requête SQL
   
   try {
     // Récupère les informations de l'utilisateur à partir de la table 'users' de Supabase
