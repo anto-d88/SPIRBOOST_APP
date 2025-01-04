@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { createClient } = require('@supabase/supabase-js');
+const nodemailer = require('nodemailer');
 
 // Configuration de middleware pour le parsing des requêtes
 router.use(express.urlencoded({ extended: true }));
@@ -140,6 +141,10 @@ router.get('/api/chargementPaiement', async (req, res) => {
             .from('cart')
             .delete()
             .eq('user_id', id);
+
+
+      
+
 
         res.json({ success: true, user: user[0] });
     } catch (error) {

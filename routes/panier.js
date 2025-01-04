@@ -155,7 +155,7 @@ router.post('/checkout', async (req, res) => {
         }
 
         const reduction = users[0].promo || 0; // Réduction (en pourcentage)
-        const fraisDePort = users[0].free_shipping ? 0 : 500; // 5€ de frais de port si non gratuit
+        const fraisDePort = users[0].free_shipping ? 0 : 328; // 5€ de frais de port si non gratuit
 console.log(reduction)
         // Récupérer les articles du panier
         const { data: cartItems, error: errorCart } = await supabase

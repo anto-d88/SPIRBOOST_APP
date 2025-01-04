@@ -199,7 +199,9 @@ router.post('/login', csrfProtection, async (req, res) => {
                 return res.status(400).send('Mot de passe incorrect.');
             }
 
-            res.redirect(`/accueil?userId=${encodeURIComponent(user.id)}`);
+           // res.redirect(`/accueil?userId=${encodeURIComponent(user.id)}`);
+            // Rendu de la page d'accueil avec les informations utilisateur et produits
+            res.render('accueil', { user: users[0] });
         }
     } catch (err) {
         console.error(err);

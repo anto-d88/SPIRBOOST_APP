@@ -53,7 +53,7 @@
                                         <!-- Frais de port -->
                                         <% if (user.free_shipping == false ) { %>
                                         <div class="frais-de-port">
-                                            <% const shippingCost = 5; %> <!-- Exemple de frais de port fixes -->
+                                            <% const shippingCost = 3.30; %> <!-- Exemple de frais de port fixes -->
                                             <p>Frais de port : <%= shippingCost %>€</p>
                                             
                                         </div>
@@ -68,7 +68,7 @@
                                          <!-- Frais de port -->
                                 <% if (user.free_shipping == false && user.promo == null) { %>
                                             <div class="frais-de-port">
-                                                <% const shippingCost = 5; %> <!-- Exemple de frais de port fixes -->
+                                                <% const shippingCost = 3.30; %> <!-- Exemple de frais de port fixes -->
                                                 <p>Frais de port : <%= shippingCost %>€</p>
                                                 
                                             </div>
@@ -82,7 +82,7 @@
                                         <form action="/checkout" id="paiement" method="post">
                                             <button type="submit">Valider la commande</button>
                                         </form>
-                                       <!-- <a href="/chargementPaiement" id="success" class="btn">Success</a>-->
+                                       <!--<a href="/chargementPaiement" id="success" class="btn">Success</a>-->
                                     </section>
                                 <% } else { %>
                                     <p>Votre panier est vide.</p>
