@@ -1,3 +1,27 @@
+// Masquer l'élément contenant l'identifiant utilisateur et mettre à jour les liens dynamiques
+document.addEventListener('DOMContentLoaded', () => {
+  // Récupérer l'ID utilisateur depuis l'élément caché
+  const hidenid = document.getElementById('hidenid').innerHTML;
+  const userId = hidenid;
+
+  // Masquer l'élément 'hidenid' pour qu'il ne soit pas visible
+  document.getElementById("hidenid").style.display = "none";
+
+  // Fonction pour mettre à jour les liens dynamiques avec l'ID utilisateur
+  const updateLinkWithUserId = (id, path) => {
+      const link = document.getElementById(id);
+      if (link) link.href = `${path}?userId=${encodeURIComponent(userId)}`;
+  };
+
+  // Mettre à jour les liens dynamiques
+  updateLinkWithUserId('accueil', '/accueil');
+  updateLinkWithUserId('spirulineBio', '/spirulineBio');
+  updateLinkWithUserId('histoiredelaspiruline', '/histoiredelaspiruline');
+  updateLinkWithUserId('panier', '/panier');
+  updateLinkWithUserId('espaceClient', '/espaceClient');
+  updateLinkWithUserId('contact', '/contact');
+});
+
 document.querySelector('.informations').addEventListener('click', () => {
     let informations = document.querySelector('.boxInfoClient');;
     informations.style.display = "block"
