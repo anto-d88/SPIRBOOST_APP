@@ -144,4 +144,8 @@ main {
       position: relative;
       z-index: 2;
   }
+  .popup .btn {
+
+    margin-bottom: 20px;
+  }
 }
