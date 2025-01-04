@@ -37,7 +37,7 @@
               <td><%= msg.id %></td>
               <td><%= msg.sender_id %></td>
               <td><%= msg.message %></td>
-              <td><%= new Date(msg.created_at).toLocaleString() %></td>
+              <td><%= new Date(msg.created_at).toLocaleString('fr-FR') %></td>
               <td>
                 <form action="/admin/respond" method="POST">
                   <input type="hidden" name="sender_id" value="<%= msg.sender_id %>">
@@ -49,7 +49,7 @@
               <td>
                 <ul>
                   <% responses.filter(r => r.message_id === msg.id).forEach(response => { %>
-                    <li><strong>Admin:</strong> <%= response.response %> <small>(<%= new Date(response.created_at).toLocaleString() %>)</small></li>
+                    <li><strong>Admin:</strong> <%= response.response %> <small>(<%= new Date(response.created_at).toLocaleString('fr-FR') %>)</small></li>
                   <% }) %>
                 </ul>
               </td>
