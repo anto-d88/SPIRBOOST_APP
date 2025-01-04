@@ -27,5 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userLinkcontact = document.getElementById('contact');
     userLinkcontact.href = `/contact?userId=${encodeURIComponent(userId)}`;
 
+
+    // mise a jour 
  
 });
