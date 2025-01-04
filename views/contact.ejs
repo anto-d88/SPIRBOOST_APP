@@ -48,7 +48,7 @@
                                 <p><%= msg.message %></p>
                                 <small>
                                     <%= msg.sender_id === user.id ? 'Vous' : 'Admin' %>, 
-                                    le <%= new Date(msg.created_at).toLocaleString('fr-FR') %>
+                                    le <%= new Date(msg.created_at).toLocaleString() %>
                                 </small>
 
                                 <!-- Affichage des réponses de l'administrateur -->
@@ -56,7 +56,7 @@
                                 <% if (response) { %>
                                     <div class="response">
                                         <p><strong>Réponse de l'Admin:</strong> <%= response.response %></p>
-                                        <small>Répondu le <%= new Date(response.created_at).toLocaleString('fr-FR') %></small>
+                                        <small>Répondu le <%= new Date(response.created_at).toLocaleString() %></small>
                                     </div>
                                 <% } else { %>
                                     <p><em>Aucune réponse pour ce message.</em></p>
