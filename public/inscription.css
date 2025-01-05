@@ -85,12 +85,16 @@
 }
 
 /* Style responsive */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .boxe-login {
         padding: 20px;
     }
 
     .boxe-login h1 {
         font-size: 20px;
+    }
+    body {
+        flex-direction: column; /* Empile les éléments si nécessaire */
+        justify-content: flex-start; /* Évite de couper le haut */
     }
 }

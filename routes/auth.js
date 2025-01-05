@@ -41,7 +41,9 @@ router.use(limiter);
 const registrationSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
-    adresseNumero: Joi.string().regex(/^\d+$/).required(),
+    adresseNumero: Joi.string().regex(/^[a-zA-Z0-9\s]+$/).required().messages({
+        "string.pattern.base": "Le numéro d'adresse doit contenir uniquement des lettres, des chiffres, et des espaces.",
+        "any.required": "Le numéro d'adresse est obligatoire."}),
     adresseRue: Joi.string().required(),
     adresseCodePostal: Joi.string()
     .pattern(/^\d{4,5}$|^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$|^[0-9]{3,6}$/)
@@ -123,7 +125,7 @@ router.post('/register', csrfProtection, async (req, res) => {
         adresseCodePostal,
         adresseVille,
         telephone,
-        Nom,
+        Nom, 
         Prenom,
     } = value;
 
