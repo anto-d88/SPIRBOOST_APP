@@ -6,8 +6,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     color: #f39c12; /* Couleur du texte */
+    padding: 10px; /* Ajout de marges pour éviter les débordements */
+    box-sizing: border-box;
+    flex-direction: column;
 }
 
 /* Section du formulaire */
@@ -19,6 +22,8 @@
     width: 100%;
     max-width: 400px;
     text-align: center;
+    margin-top: auto; /* Espacement automatique au-dessus */
+    margin-bottom: 20px; /* Ajout d'espace en bas */
 }
 
 /* Titre du formulaire */
@@ -86,15 +91,16 @@
 
 /* Style responsive */
 @media (max-width: 600px) {
+    body {
+        padding: 20px 10px; /* Plus de marge sur les petits écrans */
+    }
     .boxe-login {
+        margin-top: 80px; /* Ajout d'une marge fixe pour descendre le formulaire */
         padding: 20px;
     }
 
     .boxe-login h1 {
         font-size: 20px;
     }
-    body {
-        flex-direction: column; /* Empile les éléments si nécessaire */
-        justify-content: flex-start; /* Évite de couper le haut */
-    }
+
 }
